@@ -14,7 +14,7 @@ class Bingo:
         for x in range(0,5):
             for y in range(0,5):
                 if choosen_number == self.table[x][y]:
-                    print("Striked number")
+                    # print("Striked number")
                     row[x] = row[x] + 1
                     column[y] = column[y] + 1
         score = row.count(5) + column.count(5)
@@ -25,13 +25,14 @@ class Bingo:
         else:
             return [0]
 
-def get_table():
+def create_table():
     temp = []
+    print("Enter the Numbers to use in the game")
     for _ in range(0,5):
         temp.append(list(map(int,input().split())))
     return temp
 
-def shuffle_table(table_param,n):
+def create_player_table(table_param,n):
     objects = []
     for y in range(0,n):
         table = list(map(list, table_param))
@@ -45,20 +46,21 @@ def shuffle_table(table_param,n):
         # print(table)
     return objects
 
-def main():
-    n = int(input('Enter the no. of players '))
-    table = get_table()
-    objects = shuffle_table(table,n)
+def play_game(objects):
     t = 0
-    end = 0 
-    while t < 10 and end == 0:
+    while t < 10:
         # print("playing")
         user_choice = list(map(int,input().split()))
         player_id = user_choice[0] - 1
         for x in objects:
             res = x.play_game(user_choice[1]) 
             if res[0] == 1:
-                print("Player {} is the winner".format(res[1]))
-                end = 1
-                break
+                return res[1]
+
+def main():
+    n = int(input('Enter the no. of players '))
+    table = create_table()
+    objects = create_player_table(table,n)
+    winner = play_game(objects)
+    print("Player {} is the winner".format(winner))
 main()
